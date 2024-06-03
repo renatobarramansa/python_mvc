@@ -1,0 +1,12 @@
+# Usar a imagem oficial do SQL Server
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Definir variáveis de ambiente
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=Jogador@123
+
+# Porta exposta pelo SQL Server
+EXPOSE 1433
+
+# Iniciar o SQL Server
+CMD /opt/mssql/bin/sqlservr
