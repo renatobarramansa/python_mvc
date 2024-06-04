@@ -6,6 +6,6 @@ class ClientView:
     email = input("Digite o email do cliente: ")
     return client_id, name, email
   
-  @staticmethod
-  def display_message(message):
-    print(message)
+  def get_client_id(self):
+    client_id = int(input("ID do cliente a ser excluído"))
+    return client_id

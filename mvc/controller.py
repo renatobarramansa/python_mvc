@@ -2,26 +2,32 @@ from model import ClientModel
 from view import ClientView
 
 class ClientController:
-    def __init__(self, server, username, password):
-        self.model = ClientModel(server, username, password)
+    def __init__(self, server, username, password,database):
+        self.model = ClientModel(server, username, password,database)
         self.view = ClientView()
 
-    def run(self):
-        # Cria o banco de dados se ele não existir
-        # self.model.create_database()
-        # Conecta ao banco de dados
-        self.model.connect()
-        # Verifica se a conexão foi bem-sucedida antes de prosseguir
-        if self.model.connection and self.model.cursor:
-            # Cria a tabela 'Clientes' se ela não existir
+    def run(self):        
+        self.model.connect()        
+        if self.model.connection and self.model.cursor:            
             self.model.create_table()
             
-            # Obtém dados do cliente da visão (entrada do usuário)
-            client_id, name, email = self.view.get_client_data()
-            # Insere os dados do cliente no banco de dados usando o modelo
-            self.model.insert_client(client_id, name, email)
+            while True:
+                print("1. Inserir novo cliente")
+                print("2. Excluir cliente")
+                print("3. Sair")
+                choice = input("Escolha uma opção: ")
+                
+                if choice == '1':
+                    client_id, name, email = self.view.get_client_data()
+                    self.model.insert_client(client_id, name, email)
+                elif choice == '2':
+                    client_id = self.view.get_client_id()
+                    self.model.delete_client(client_id)
+                elif choice == '3':
+                    break
+                else:
+                    print("Opção inválida. Tente novamente.")
             
-            # Fecha a conexão com o banco de dados
             self.model.close()
         else:
             print("Erro: Conexão com o banco de dados não foi estabelecida.")
